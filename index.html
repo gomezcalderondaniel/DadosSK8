@@ -1,16 +1,34 @@
-<html><head>
+<html>
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Dados de SK8</title>
+<title>SK8 DADOS</title>
 
 <style>
   body {
     font-family: "Courier New", "IBM Plex Mono", monospace;
-    background: #f0e7db;
     margin: 0;
     padding: 0;
     color: #2a1f0a;
     text-align: center;
+    background: linear-gradient(to bottom, white, #f0e7db);">
+  }
+
+  /* ================================
+       LOGO IMAGE
+  ================================== */
+  .logo-name{
+    font-size: 24px;
+    font-weight: bold;
+    white-space: pre-line;
+  }
+  
+  
+  #appLogo {
+    width: 150px;                /* resize freely */
+    margin: 10px auto;
+    display: block;
+    filter: drop-shadow(0px 6px 16px rgba(0,0,0,0.45));
   }
 
   h1 {
@@ -20,7 +38,7 @@
   }
 
   .dice-container {
-    margin: 100px;
+    margin: 50px;
     display: flex;
     justify-content: center;
     gap: 50px;
@@ -44,7 +62,7 @@
     height: 100%;
     background: url('https://as2.ftcdn.net/jpg/15/39/54/53/1000_F_1539545396_VECLyGy0YQk6wZcF4HvaHcXFvRAyCFTP.jpg');
     background-size: flex;
-    border: 2px solid #4a341a;
+    border: 1px solid #4a341a;
     border-radius: 10px;
     box-shadow: inset 0 0 12px rgba(0,0,0,0.4);
     display: flex;
@@ -64,15 +82,16 @@
   .top    { transform: rotateX(90deg) translateZ(60px); }
   .bottom { transform: rotateX(-90deg) translateZ(60px); }
 
-  /* ============================
-       SKATEBOARD SVG BUTTON
-     ============================ */
+  /* ================================
+       SKATEBOARD BUTTON
+  ================================== */
   .skate-btn {
+    font-weight: bold;
     background: none;
     border: none;
     padding: 0;
     cursor: pointer;
-    width: 230px;  /* Size of skateboard button */
+    width: 200px;
     display: block;
     margin: 40px auto;
     transition: transform 0.15s ease;
@@ -98,7 +117,15 @@
 </head>
 
 <body>
-    
+
+<!-- ================================
+     LOGO
+==================================== -->
+<div class="logo-name">
+<img id="appLogo" src="Dados de SK8 LOGO.png" alt="Dados de SK8 Logo">
+  SK8 DADOS
+</div>
+
 <div class="dice-container">
 
   <!-- DICE 1 -->
@@ -113,30 +140,25 @@
 
 </div>
 
-
-<!-- ========================
-       SKATEBOARD SVG BUTTON
-     ======================== -->
+<!-- ================================
+     SKATEBOARD BUTTON
+==================================== -->
 <button class="skate-btn" onclick="rollDice()">
   <svg viewBox="0 0 512 128" xmlns="http://www.w3.org/2000/svg">
-
-    <!-- Deck main body -->
     <rect x="64" y="0" width="384" height="128" rx="64" fill="#333"></rect>
-    
-    <!-- Bolt holes (tail) -->
+
     <circle cx="150" cy="40" r="6" fill="#000"></circle>
     <circle cx="180" cy="40" r="6" fill="#000"></circle>
     <circle cx="150" cy="88" r="6" fill="#000"></circle>
     <circle cx="180" cy="88" r="6" fill="#000"></circle>
 
-    <!-- Bolt holes (nose) -->
     <circle cx="330" cy="40" r="6" fill="#000"></circle>
     <circle cx="360" cy="40" r="6" fill="#000"></circle>
     <circle cx="330" cy="88" r="6" fill="#000"></circle>
     <circle cx="360" cy="88" r="6" fill="#000"></circle>
 
-    <!-- Jugar text -->
-    <text x="50%" y="50%" text-anchor="middle" dy=".35em" fill="white" font-family="Courier New" font-size="42">
+    <text x="50%" y="50%" text-anchor="middle" dy=".35em"
+          fill="white" font-family="Courier New" font-size="42">
       Jugar
     </text>
   </svg>
@@ -152,7 +174,7 @@ const diceFaces = [
 
 const faceClasses = ["front", "back", "right", "left", "top", "bottom"];
 
-// Dynamically build dice faces on page load
+// Build dice on load
 function buildDice() {
   for (let d = 0; d < 2; d++) {
     const diceEl = document.getElementById("dice" + (d + 1));
@@ -166,8 +188,7 @@ function buildDice() {
     });
   }
 }
-
-buildDice(); // build both dice once
+buildDice();
 
 function rollDice() {
   const dice1 = document.getElementById("dice1");
@@ -194,7 +215,5 @@ function rollDice() {
 }
 </script>
 
-
-
-
-</body></html>
+</body>
+</html>
