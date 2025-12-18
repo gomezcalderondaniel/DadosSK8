@@ -1,217 +1,293 @@
-<html>
+<!doctype html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SK8 DADOS</title>
+<title>Dados SK8</title>
 
 <style>
-  body {
-    font-family: "Courier New", "IBM Plex Mono", monospace;
-    margin: 0;
-    padding: 0;
-    color: #2a1f0a;
-    text-align: center;
-    background: linear-gradient(to bottom, white, #f0e7db);">
-  }
+.app-content {
+  flex: 1;                 /* 🔑 fills available space */
+  padding-bottom: 16px;    /* small breathing room */
+}
 
-  /* ================================
-       LOGO IMAGE
-  ================================== */
-  .logo-name{
-    font-size: 24px;
-    font-weight: bold;
-    white-space: pre-line;
-  }
-  
-  
-  #appLogo {
-    width: 150px;                /* resize freely */
-    margin: 10px auto;
-    display: block;
-    filter: drop-shadow(0px 6px 16px rgba(0,0,0,0.45));
-  }
+html {
+  height: 100%;
+}
 
-  h1 {
-    margin-top: 20px;
-    font-size: 28px;
-    letter-spacing: 1px;
-  }
+body {
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(#fff, #f5eadb);
+  font-family: "Courier New", "IBM Plex Mono", monospace;
+  margin: 0;
+  padding: 0;
+  color: #2a1f0a;
+  text-align: center;
+  height: 100%;
+}
 
-  .dice-container {
-    margin: 50px;
-    display: flex;
-    justify-content: center;
-    gap: 50px;
-  }
+/* ================================
+   LOGO
+================================ */
+.logo-name {
+  opacity: 0.92;
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 0px;
+  margin-bottom: 0px;   /* space before dice */
+}
+#appLogo {
+  width: 150px;
+}
 
-  .dice-wrapper {
-    perspective: 800px;
-  }
+/* ================================
+   DICE
+================================ */
+.dice-container {
+  margin: 100px 20px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
 
-  .dice {
-    width: 120px;
-    height: 120px;
-    position: relative;
-    transform-style: preserve-3d;
-    transition: transform 1.2s cubic-bezier(.25,1.8,.5,1);
-  }
+.dice-wrapper {
+  perspective: 800px;
+}
 
-  .face {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: url('https://as2.ftcdn.net/jpg/15/39/54/53/1000_F_1539545396_VECLyGy0YQk6wZcF4HvaHcXFvRAyCFTP.jpg');
-    background-size: flex;
-    border: 1px solid #4a341a;
-    border-radius: 10px;
-    box-shadow: inset 0 0 12px rgba(0,0,0,0.4);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 18px;
-    font-weight: bold;
-    text-align: center;
-    padding: 8px;
-    color: #1b1208;
-  }
+.dice {
+  width: 120px;
+  height: 120px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 1.2s cubic-bezier(.25,1.8,.5,1);
+}
 
-  .front  { transform: rotateY(0deg) translateZ(60px); }
-  .back   { transform: rotateY(180deg) translateZ(60px); }
-  .right  { transform: rotateY(90deg) translateZ(60px); }
-  .left   { transform: rotateY(-90deg) translateZ(60px); }
-  .top    { transform: rotateX(90deg) translateZ(60px); }
-  .bottom { transform: rotateX(-90deg) translateZ(60px); }
+.face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: url('https://as2.ftcdn.net/jpg/15/39/54/53/1000_F_1539545396_VECLyGy0YQk6wZcF4HvaHcXFvRAyCFTP.jpg');
+  background-size: flex;
+  border: 1px solid #4a341a;
+  border-radius: 10px;
+  box-shadow: inset 0 0 12px rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 8px;
+}
 
-  /* ================================
-       SKATEBOARD BUTTON
-  ================================== */
-  .skate-btn {
-    font-weight: bold;
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    width: 200px;
-    display: block;
-    margin: 40px auto;
-    transition: transform 0.15s ease;
-  }
+.front  { transform: rotateY(0deg) translateZ(60px); }
+.back   { transform: rotateY(180deg) translateZ(60px); }
+.right  { transform: rotateY(90deg) translateZ(60px); }
+.left   { transform: rotateY(-90deg) translateZ(60px); }
+.top    { transform: rotateX(90deg) translateZ(60px); }
+.bottom { transform: rotateX(-90deg) translateZ(60px); }
 
-  .skate-btn svg {
-    width: 100%;
-    height: auto;
-    filter: drop-shadow(0px 6px 12px rgba(0,0,0,0.38));
-  }
+    /* ================================
+         SKATEBOARD BUTTON
+    ================================== */
+    .skate-btn {
+      font-weight: bold;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      width: 200px;
+      display: block;
+      margin: 40px auto;
+      transition: transform 0.15s ease;
+    }
 
-  .skate-btn:active {
-    transform: scale(0.96);
-  }
+    .skate-btn svg {
+      width: 100%;
+      height: auto;
+      filter: drop-shadow(0px 6px 12px rgba(0, 0, 0, 0.38));
+    }
 
-  #resultText {
-    margin-top: 28px;
-    font-size: 22px;
-    font-weight: bold;
-    white-space: pre-line;
-  }
+    .skate-btn:active {
+      transform: scale(0.96);
+    }
+
+/* ================================
+   RESULT TEXT
+================================ */
+#resultText {
+  font-size: 22px;
+  font-weight: bold;
+  white-space: pre-line;
+  min-height: 56px;
+  margin-bottom: 10px;
+}
+
+/* ================================
+   DIFFICULTY BUTTONS
+================================ */
+.diff-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  background: url('https://as2.ftcdn.net/jpg/15/39/54/53/1000_F_1539545396_VECLyGy0YQk6wZcF4HvaHcXFvRAyCFTP.jpg');
+  background-size: flex;
+  border: 2px solid #4a341a;
+  font-size: 9px;
+  font-weight: bold;
+  cursor: pointer;
+  display: cover;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    inset 0 0 8px rgba(0,0,0,0.25),
+    0 2px 4px rgba(0,0,0,0.2);
+}
+
+.diff-btn.active {
+  outline: 2px solid #2a1f0a;
+  transform: translateY(-2px);
+}
+
+/* ================================
+   BOTTOM BAR (WHITE PANEL)
+================================ */
+.bottom-bar {
+  background: white;
+  padding: 14px 0 18px;
+  box-shadow: 0 -6px 20px rgba(0,0,0,0.08);
+}
+/* difficulty bar now lives INSIDE bottom bar */
+.difficulty-bar {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
 </style>
 </head>
 
 <body>
-
-<!-- ================================
-     LOGO
-==================================== -->
+ 
 <div class="logo-name">
 <img id="appLogo" src="Dados de SK8 LOGO.png" alt="Dados de SK8 Logo">
-  SK8 DADOS
 </div>
 
+<div class="app-content">
 <div class="dice-container">
-
-  <!-- DICE 1 -->
   <div class="dice-wrapper">
     <div class="dice" id="dice1"></div>
   </div>
-
-  <!-- DICE 2 -->
   <div class="dice-wrapper">
     <div class="dice" id="dice2"></div>
   </div>
+</div>
 
+  <!-- ================================
+       SKATEBOARD BUTTON
+  ================================== -->
+  <button class="skate-btn" onclick="rollDice()">
+    <svg viewBox="0 0 512 128" xmlns="http://www.w3.org/2000/svg">
+      <rect x="64" y="0" width="384" height="128" rx="64" fill="#333"></rect>
+
+      <circle cx="150" cy="40" r="6" fill="#000"></circle>
+      <circle cx="180" cy="40" r="6" fill="#000"></circle>
+      <circle cx="150" cy="88" r="6" fill="#000"></circle>
+      <circle cx="180" cy="88" r="6" fill="#000"></circle>
+
+      <circle cx="330" cy="40" r="6" fill="#000"></circle>
+      <circle cx="360" cy="40" r="6" fill="#000"></circle>
+      <circle cx="330" cy="88" r="6" fill="#000"></circle>
+      <circle cx="360" cy="88" r="6" fill="#000"></circle>
+
+      <text x="50%" y="50%" text-anchor="middle" dy=".35em"
+            fill="white" font-family="Courier New" font-size="42">
+        skate
+      </text>
+    </svg>
+  </button>
+
+<div id="resultText"></div>
 </div>
 
 <!-- ================================
-     SKATEBOARD BUTTON
-==================================== -->
-<button class="skate-btn" onclick="rollDice()">
-  <svg viewBox="0 0 512 128" xmlns="http://www.w3.org/2000/svg">
-    <rect x="64" y="0" width="384" height="128" rx="64" fill="#333"></rect>
-
-    <circle cx="150" cy="40" r="6" fill="#000"></circle>
-    <circle cx="180" cy="40" r="6" fill="#000"></circle>
-    <circle cx="150" cy="88" r="6" fill="#000"></circle>
-    <circle cx="180" cy="88" r="6" fill="#000"></circle>
-
-    <circle cx="330" cy="40" r="6" fill="#000"></circle>
-    <circle cx="360" cy="40" r="6" fill="#000"></circle>
-    <circle cx="330" cy="88" r="6" fill="#000"></circle>
-    <circle cx="360" cy="88" r="6" fill="#000"></circle>
-
-    <text x="50%" y="50%" text-anchor="middle" dy=".35em"
-          fill="white" font-family="Courier New" font-size="42">
-      Jugar
-    </text>
-  </svg>
-</button>
-
-<div id="resultText"></div>
+     BOTTOM BAR
+================================ -->
+<div class="bottom-bar">
+  <div class="difficulty-bar">
+    <button class="diff-btn active" onclick="setDifficulty('beginner', this)">Beg</button>
+    <button class="diff-btn" onclick="setDifficulty('intermediate', this)">Int</button>
+    <button class="diff-btn" onclick="setDifficulty('advanced', this)">Adv</button>
+    <button class="diff-btn" onclick="setDifficulty('expert', this)">Exp</button>
+    <button class="diff-btn" onclick="setDifficulty('pro', this)">Pro</button>
+  </div>
+</div>
 
 <script>
-const diceFaces = [
-  ["Normal", "Switch", "Fakie", "Nollie", "Libre", "Repetir"],
-  ["Kickflip", "Heelflip", "BS Shove-it", "FS Shove-it", "BS 180", "FS 180"]
-];
+const stanceFaces = ["Natural","Switch","Fakie","Nollie","Libre","Repetir"];
+    // Right dice (tricks)
+    const trickSets = {
+      beginner: [
+        "Kickflip", "Heelflip", "FS Shuv", "BS Shuv", "FS 180", "BS 180"
+      ],
+      intermediate: [
+        "Varial Kickflip", "Varial Heelflip", "360 FS Shuv", "360 BS Shuv", "FS Bigspin", "BS Bigspin"
+      ],
+      advanced: [
+        "360 Flip", "Laser Flip", "Hardflip", "Inward Heelflip", "FS 360", "BS 360"
+      ],
+      expert: [
+        "Big Flip", "Big Heelflip", "360 FS Flip", "360 BS Flip", "Pressure Flip","Double Flip"
+      ],
+      pro: [
+        "360 FS Heelflip", "360 BS Heelflip", "Pressure Flip", "Late Flip", "Late FS Shuv", "Gazelle Flip"
+      ]
+    };
 
-const faceClasses = ["front", "back", "right", "left", "top", "bottom"];
+let currentDifficulty = "beginner";
+const faceClasses = ["front","back","right","left","top","bottom"];
 
-// Build dice on load
-function buildDice() {
-  for (let d = 0; d < 2; d++) {
-    const diceEl = document.getElementById("dice" + (d + 1));
-    const faces = diceFaces[d];
-
-    faces.forEach((text, i) => {
-      const face = document.createElement("div");
-      face.className = "face " + faceClasses[i];
-      face.textContent = text;
-      diceEl.appendChild(face);
-    });
-  }
+function buildDice(id, faces) {
+  const dice = document.getElementById(id);
+  dice.innerHTML = "";
+  faces.forEach((t,i)=>{
+    const f=document.createElement("div");
+    f.className="face "+faceClasses[i];
+    f.textContent=t;
+    dice.appendChild(f);
+  });
 }
-buildDice();
 
-function rollDice() {
-  const dice1 = document.getElementById("dice1");
-  const dice2 = document.getElementById("dice2");
-  const resultText = document.getElementById("resultText");
+buildDice("dice1", stanceFaces);
+buildDice("dice2", trickSets[currentDifficulty]);
 
-  const roll1 = Math.floor(Math.random() * 6);
-  const roll2 = Math.floor(Math.random() * 6);
+function setDifficulty(level, btn){
+  currentDifficulty=level;
+  buildDice("dice2", trickSets[level]);
+  document.querySelectorAll(".diff-btn").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+}
 
-  const rotations = [
-    "rotateX(0deg) rotateY(0deg)",
-    "rotateX(0deg) rotateY(180deg)",
-    "rotateX(0deg) rotateY(-90deg)",
-    "rotateX(0deg) rotateY(90deg)",
-    "rotateX(-90deg) rotateY(0deg)",
-    "rotateX(90deg) rotateY(0deg)"
+function rollDice(){
+  const r1=Math.floor(Math.random()*6);
+  const r2=Math.floor(Math.random()*6);
+  const rot=[
+    "rotateX(0) rotateY(0)",
+    "rotateX(0) rotateY(180deg)",
+    "rotateX(0) rotateY(-90deg)",
+    "rotateX(0) rotateY(90deg)",
+    "rotateX(-90deg)",
+    "rotateX(90deg)"
   ];
-
-  dice1.style.transform = rotations[roll1];
-  dice2.style.transform = rotations[roll2];
-
-  resultText.textContent =
-    `${diceFaces[0][roll1]}\n${diceFaces[1][roll2]}`;
+  dice1.style.transform=rot[r1];
+  dice2.style.transform=rot[r2];
+  resultText.textContent=
+    stanceFaces[r1]+"\n"+trickSets[currentDifficulty][r2];
 }
 </script>
 
