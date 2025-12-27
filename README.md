@@ -1,4 +1,4 @@
-# 🎲 SK8 DADOS
+# 🎲 SK8 DICE
 
 **SK8 DICE** is a minimalist, mobile-first skateboarding trick generator inspired by physical dice.  
 Roll the dice, get a stance + trick combination, and skate.
