@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Sk8 Spin</title>
+
+<style>
+:root {
+  --bg-grad: linear-gradient(#fff, #f5eadb);
+  --text-main: #2a1f0a;
+  --bar-bg: white;
+  --btn-body: #333;
+  --btn-text: #fff;
+  --shadow-color: rgba(0,0,0,0.08);
+  --accent: #ff4d4d;
+  --wheel-urethane: radial-gradient(circle at 50% 50%, #fff 0%, #f0f0f0 60%, #d9d9d9 90%, #aaa 100%);
+}
+
+[data-theme="dark"] {
+  --bg-grad: linear-gradient(#2c2c2c, #1a1a1a);
+  --text-main: #f5eadb;
+  --bar-bg: #121212;
+  --btn-body: #444;
+  --btn-text: #f5eadb;
+  --shadow-color: rgba(0,0,0,0.5);
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  background: var(--bg-grad);
+  font-family: "Courier New", monospace;
+  color: var(--text-main);
+  overflow: hidden;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.theme-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 20;
+}
+
+.logo-name { margin-top: 16px; }
+#appLogo { width: 120px; height: auto; }
+
+.app-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 15px;
+}
+
+.wheel-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.wheel-wrapper {
+  position: relative;
+  width: 170px;
+  height: 170px;
+}
+
+.t-tool-marker {
+  position: absolute;
+  top: -45px;
+  left: 50%;
+  width: 60px;
+  transform: translateX(-50%);
+  z-index: 15;
+  pointer-events: none;
+}
+
+.wheel {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  position: relative;
+  background: var(--wheel-urethane);
+  box-shadow: inset 0 0 15px rgba(0,0,0,0.1), 0 12px 20px rgba(0,0,0,0.2);
+  transition: transform 3s cubic-bezier(0.1, 1, 0.2, 1);
+  overflow: hidden;
+  border: 1px solid #ccc;
+}
+
+@keyframes bearingWobble {
+  0% { transform: rotate(var(--final-rot)); }
+  25% { transform: rotate(calc(var(--final-rot) + 1.2deg)); }
+  50% { transform: rotate(calc(var(--final-rot) - 0.8deg)); }
+  75% { transform: rotate(calc(var(--final-rot) + 0.4deg)); }
+  100% { transform: rotate(var(--final-rot)); }
+}
+
+.wobbling {
+  animation: bearingWobble 0.4s ease-out;
+}
+
+.wheel::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 65px;
+  height: 65px;
+  background: radial-gradient(circle, #999 0%, #666 18%, #ffd700 20%, #555 25%, #c0c0c0 45%, #222 55%, #444 100%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+.wheel::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 28px;
+  height: 28px;
+  background: radial-gradient(circle, #666 0%, #444 45%, #222 70%, #111 100%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 11;
+}
+
+.axle-nut {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(145deg, #555, #222);
+  clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
+  transform: translate(-50%, -50%);
+  z-index: 12;
+}
+
+.wheel-segment {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 50%;
+}
+
+.wheel-label {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  font-size: 9px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.skate-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 150px;
+  margin: 0 auto;
+}
+
+.skate-btn rect { fill: var(--btn-body); }
+.skate-btn text { fill: var(--btn-text); }
+
+#resultText {
+  font-size: 28px;
+  font-weight: 900;
+  white-space: pre-line;
+  min-height: 80px;
+}
+
+.red-alert { color: var(--accent); }
+.strikethrough { text-decoration: line-through; opacity: 0.3; }
+
+.bottom-bar {
+  background: var(--bar-bg);
+  padding: 10px 0 25px;
+  box-shadow: 0 -5px 20px var(--shadow-color);
+}
+
+.difficulty-bar {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 10px 20px;
+}
+
+.diff-btn {
+  flex: 0 0 65px;
+  height: 45px;
+  border-radius: 8px;
+  border: 2px solid #333;
+  background: #222;
+  color: #fff;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.diff-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+</style>
+</head>
+
+<body>
+
+<button class="theme-toggle" onclick="toggleTheme()" id="themeIcon">🌙</button>
+
+<div class="logo-name">
+  <img id="appLogo" src="Dados de SK8 LOGO.png" alt="SK8 DICE">
+</div>
+
+<div class="app-content">
+  <div class="wheel-container">
+
+    <div class="wheel-wrapper">
+      <img src="T-tool_skateboarding-removebg-preview.png" class="t-tool-marker">
+      <div id="wheel1" class="wheel"><div class="axle-nut"></div></div>
+    </div>
+
+    <div class="wheel-wrapper">
+      <img src="T-tool_skateboarding-removebg-preview.png" class="t-tool-marker">
+      <div id="wheel2" class="wheel"><div class="axle-nut"></div></div>
+    </div>
+
+  </div>
+
+  <button class="skate-btn" onclick="spinWheels()">
+    <svg viewBox="0 0 512 128" xmlns="http://www.w3.org/2000/svg">
+      <rect x="64" y="0" width="384" height="128" rx="64"></rect>
+      <circle cx="150" cy="40" r="6" fill="#111"></circle>
+      <circle cx="180" cy="40" r="6" fill="#111"></circle>
+      <circle cx="150" cy="88" r="6" fill="#111"></circle>
+      <circle cx="180" cy="88" r="6" fill="#111"></circle>
+      <circle cx="330" cy="40" r="6" fill="#111"></circle>
+      <circle cx="360" cy="40" r="6" fill="#111"></circle>
+      <circle cx="330" cy="88" r="6" fill="#111"></circle>
+      <circle cx="360" cy="88" r="6" fill="#111"></circle>
+      <text x="50%" y="50%" text-anchor="middle" dy=".35em" font-size="44" font-weight="bold">SKATE</text>
+    </svg>
+  </button>
+
+  <div id="resultText">READY TO ROLL</div>
+</div>
+
+<div class="bottom-bar">
+  <div class="difficulty-bar">
+    <button class="diff-btn" onclick="setDifficulty('beginner', this)">BEG</button>
+    <button class="diff-btn active" onclick="setDifficulty('amateur', this)">AMT</button>
+    <button class="diff-btn" onclick="setDifficulty('intermediate', this)">INT</button>
+    <button class="diff-btn" onclick="setDifficulty('advanced', this)">ADV</button>
+    <button class="diff-btn" onclick="setDifficulty('expert', this)">EXP</button>
+    <button class="diff-btn" onclick="setDifficulty('pro', this)">PRO</button>
+    <button class="diff-btn" onclick="setDifficulty('oldschool', this)">OLDSKL</button>
+  </div>
+</div>
+
+<script>
+const stanceFaces = ["Natural", "Switch", "Fakie", "Nollie", "Free", "Go Again"];
+
+const trickSets = {
+  beginner: ["Ollie","FS 180","BS 180","Pivot","Nose Man.","Manual"],
+  amateur: ["Kickflip","Heelflip","FS Shuv","BS Shuv","FS 180","BS 180"],
+  intermediate: ["Varial Flip","Varial Heel","360 FS Shuv","360 BS Shuv","FS Bigspin","BS Bigspin"],
+  advanced: ["360 Flip","Laser Flip","Hardflip","Inward Heel","FS 360","BS 360"],
+  expert: ["Big Flip","Big Heel","360 FS Flip","360 BS Flip","Double Heelflip","Double Flip"],
+  pro: ["360 FS Heel","360 BS Heel","Late Flip","Late Heel","Late FS Shuv","Late BS Shuv"],
+  oldschool: ["No-Comply","BS 180 NC","Pressure Flip","Boneless","Primo","Fingerflip"]
+};
+
+let currentDifficulty = "amateur";
+let rot1 = 0, rot2 = 0;
+
+const resultText = document.getElementById("resultText");
+
+function toggleTheme() {
+  const body = document.body;
+  const icon = document.getElementById('themeIcon');
+  body.toggleAttribute('data-theme');
+  icon.textContent = body.hasAttribute('data-theme') ? '☀️' : '🌙';
+}
+
+function buildWheel(id, labels) {
+  const wheel = document.getElementById(id);
+  // Keep the axle nut when rebuilding
+  wheel.innerHTML = `<div class="axle-nut"></div>`;
+  labels.forEach((text, i) => {
+    const seg = document.createElement("div");
+    seg.className = "wheel-segment";
+    seg.style.transform = `rotate(${i * 60}deg)`;
+    const lbl = document.createElement("div");
+    lbl.className = "wheel-label";
+    lbl.textContent = text;
+    seg.appendChild(lbl);
+    wheel.appendChild(seg);
+  });
+}
+
+function setDifficulty(level, btn) {
+  currentDifficulty = level;
+  document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  buildWheel("wheel2", trickSets[currentDifficulty]);
+}
+
+function spinWheels() {
+  const r1 = Math.floor(Math.random() * 6);
+  const r2 = Math.floor(Math.random() * 6);
+
+  rot1 += 1800 + (360 - r1 * 60) - (rot1 % 360);
+  rot2 += 2520 + (360 - r2 * 60) - (rot2 % 360);
+
+  const w1 = document.getElementById("wheel1");
+  const w2 = document.getElementById("wheel2");
+
+  w1.classList.remove("wobbling");
+  w2.classList.remove("wobbling");
+
+  w1.style.transform = `rotate(${rot1}deg)`;
+  w2.style.transform = `rotate(${rot2}deg)`;
+
+  resultText.style.opacity = "0.3";
+
+  setTimeout(() => {
+    w1.style.setProperty('--final-rot', `${rot1}deg`);
+    w2.style.setProperty('--final-rot', `${rot2}deg`);
+    w1.classList.add("wobbling");
+    w2.classList.add("wobbling");
+
+    const stance = stanceFaces[r1];
+    const trick = trickSets[currentDifficulty][r2];
+
+    resultText.innerHTML = stance === "Go Again"
+      ? `<span class="red-alert">${stance}</span>\n<span class="strikethrough">${trick}</span>`
+      : `${stance}\n${trick}`;
+
+    resultText.style.opacity = "1";
+  }, 3000);
+}
+
+// Initialization
+buildWheel("wheel1", stanceFaces);
+buildWheel("wheel2", trickSets[currentDifficulty]); // Fixed syntax here
+</script>
+
+</body>
+</html>
