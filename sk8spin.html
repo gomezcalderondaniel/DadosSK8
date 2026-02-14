@@ -295,8 +295,13 @@ const resultText = document.getElementById("resultText");
 function toggleTheme() {
   const body = document.body;
   const icon = document.getElementById('themeIcon');
-  body.toggleAttribute('data-theme');
-  icon.textContent = body.hasAttribute('data-theme') ? '☀️' : '🌙';
+  if (body.hasAttribute('data-theme')) {
+    body.removeAttribute('data-theme');
+    icon.textContent = '🌙';
+  } else {
+    body.setAttribute('data-theme', 'dark');
+    icon.textContent = '☀️';
+  }
 }
 
 function buildWheel(id, labels) {
